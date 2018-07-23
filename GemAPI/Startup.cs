@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -36,14 +37,33 @@ namespace GemAPI
                 app.UseExceptionHandler("/Error");
             }
 
-            app.UseStaticFiles();
 
-            app.UseMvc(routes =>
+
+
+
+            app.Run(async (context) =>
             {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller}/{action=Index}/{id?}");
+          
+
+                if (context.Request.Path.Value == "/cylon")
+                {
+                    await context.Response.WriteAsync("BSG");
+                }
+
+                else
+                {
+                    await context.Response.WriteAsync("no BSG");
+                }
             });
+
+            //app.UseStaticFiles();
+
+            //app.UseMvc(routes =>
+            //{
+            //    routes.MapRoute(
+            //        name: "default",
+            //        template: "{controller}/{action=Index}/{id?}");
+            //});
         }
     }
 }
